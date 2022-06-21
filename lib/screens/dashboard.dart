@@ -23,25 +23,53 @@ class Dashboard extends StatelessWidget {
         height: MediaQuery.of(context).size.height,
         child: ListView(
           children: [
-            const Text("Hello, John"),
+            const Text(
+              "Hello, John",
+              style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20),
+            ),
             const SizedBox(
               height: 20,
             ),
             Container(
-              height: 200,
+              height: 150,
               width: MediaQuery.of(context).size.width,
+              padding: const EdgeInsets.all(10),
               decoration: BoxDecoration(
+                  boxShadow: [
+                    BoxShadow(
+                        offset: const Offset(5, 10),
+                        color: Theme.of(context).primaryColorLight),
+                  ],
                   color: Theme.of(context).primaryColor,
                   borderRadius: const BorderRadius.all(Radius.circular(10))),
               child: Row(
                 children: [
                   Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                     children: const [
-                      Text("Average Bill"),
-                      Text("Kes. 200,000")
+                      Text(
+                        "Average Bill",
+                        style: TextStyle(
+                            fontSize: 20,
+                            fontWeight: FontWeight.bold,
+                            color: Colors.white),
+                      ),
+                      Text(
+                        "Kes. 200,000",
+                        style: TextStyle(fontSize: 16, color: Colors.white70),
+                      )
                     ],
                   ),
-                  const Text("Kes. 234,000")
+                  const Spacer(),
+                  const Text(
+                    "Kes. 234,000\nPending",
+                    textAlign: TextAlign.end,
+                    style: TextStyle(
+                        color: Colors.white,
+                        fontSize: 16,
+                        fontWeight: FontWeight.bold),
+                  )
                 ],
               ),
             ),
@@ -59,6 +87,7 @@ class Dashboard extends StatelessWidget {
                   height: 100,
                   width: MediaQuery.of(context).size.width / 3 - 50,
                   alignment: Alignment.center,
+                  
                   child: const Icon(Icons.add),
                 ),
                 Container(
