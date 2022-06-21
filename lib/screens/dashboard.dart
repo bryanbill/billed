@@ -81,25 +81,35 @@ class Dashboard extends StatelessWidget {
               height: 10,
             ),
             Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              mainAxisAlignment: MainAxisAlignment.spaceAround,
               children: [
                 Container(
-                  height: 100,
+                  height: 70,
                   width: MediaQuery.of(context).size.width / 3 - 50,
                   alignment: Alignment.center,
-                  
-                  child: const Icon(Icons.add),
+                  decoration: BoxDecoration(
+                      border: Border.all(),
+                      borderRadius: BorderRadius.circular(10),
+                      color: Color.fromARGB(255, 249, 249, 249)),
+                  child: const Icon(Icons.people_alt),
                 ),
                 Container(
-                  height: 100,
-                  width: MediaQuery.of(context).size.width / 3 - 50,
+                  height: 90,
+                  width: MediaQuery.of(context).size.width / 3 - 40,
                   alignment: Alignment.center,
+                  decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(10),
+                      color: Theme.of(context).primaryColorLight),
                   child: const Icon(Icons.share),
                 ),
                 Container(
-                  height: 100,
+                  height: 70,
                   width: MediaQuery.of(context).size.width / 3 - 50,
                   alignment: Alignment.center,
+                  decoration: BoxDecoration(
+                      border: Border.all(),
+                      borderRadius: BorderRadius.circular(10),
+                      color: Colors.white),
                   child: const Icon(Icons.payment),
                 )
               ],
@@ -112,16 +122,28 @@ class Dashboard extends StatelessWidget {
               height: 10,
             ),
             const ListTile(
-              subtitle: Chip(
+              leading: Chip(
                 backgroundColor: Color.fromARGB(255, 166, 235, 168),
                 label: Text("Food"),
               ),
               title: Text("Food stuff"),
-              trailing: Text("Kes. 12,000"),
+              subtitle: Text("Kes. 12,000"),
+              trailing: Text("12th, Nov"),
+            ),
+            const ListTile(
+              leading: Chip(
+                backgroundColor: Color.fromARGB(255, 166, 235, 168),
+                label: Text("Food"),
+              ),
+              title: Text("Food stuff"),
+              subtitle: Text("Kes. 12,000"),
+              trailing: Text("12th, Nov"),
             )
           ],
         ),
       ),
+      floatingActionButton:
+          FloatingActionButton(child: Icon(Icons.add), onPressed: () => {}),
     );
   }
 }
