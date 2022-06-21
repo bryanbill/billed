@@ -41,7 +41,7 @@ class Onboarding extends StatelessWidget {
           ),
         ),
         onFinish: () =>
-            Navigator.of(context).pushReplacementNamed(AppRouter.dashboard),
+            Navigator.of(context).pushReplacementNamed(AppRouter.login),
         // itemCount: pages.length,
         // duration: const Duration(milliseconds: 1500),
         // opacityFactor: 2.0,

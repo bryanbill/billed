@@ -10,8 +10,11 @@ class Dashboard extends StatelessWidget {
         centerTitle: true,
         title: const Text('Dashboard'),
         actions: const [
-          CircleAvatar(
-            child: Icon(Icons.person),
+          Padding(
+            padding: EdgeInsets.all(8.0),
+            child: CircleAvatar(
+              child: Icon(Icons.person),
+            ),
           )
         ],
       ),
