@@ -101,7 +101,10 @@ class Dashboard extends StatelessWidget {
                   decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(10),
                       color: Theme.of(context).primaryColorLight),
-                  child: const Icon(Icons.share),
+                  child: const Icon(
+                    Icons.add,
+                    size: 32,
+                  ),
                 ),
                 Container(
                   height: 70,
@@ -111,7 +114,7 @@ class Dashboard extends StatelessWidget {
                       border: Border.all(),
                       borderRadius: BorderRadius.circular(10),
                       color: Colors.white),
-                  child: const Icon(Icons.payment),
+                  child: const Icon(Icons.share),
                 )
               ],
             ),
@@ -152,8 +155,8 @@ class Dashboard extends StatelessWidget {
           ],
         ),
       ),
-      floatingActionButton:
-          FloatingActionButton(child: Icon(Icons.add), onPressed: () => {}),
+      floatingActionButton: FloatingActionButton(
+          child: Icon(Icons.person_add_alt), onPressed: () => {}),
     );
   }
 }
