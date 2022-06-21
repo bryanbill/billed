@@ -1,3 +1,4 @@
+import 'package:billed/screens/all_bills.dart';
 import 'package:flutter/material.dart';
 
 class Dashboard extends StatelessWidget {
@@ -117,7 +118,16 @@ class Dashboard extends StatelessWidget {
             const SizedBox(
               height: 20,
             ),
-            const Text("Recents"),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                const Text("Recents"),
+                TextButton(
+                    onPressed: () => Navigator.of(context).push(
+                        MaterialPageRoute(builder: (_) => const AllBills())),
+                    child: const Text("See all"))
+              ],
+            ),
             const SizedBox(
               height: 10,
             ),
@@ -132,7 +142,7 @@ class Dashboard extends StatelessWidget {
             ),
             const ListTile(
               leading: Chip(
-                backgroundColor: Color.fromARGB(255, 166, 235, 168),
+                backgroundColor: Color.fromARGB(255, 237, 204, 226),
                 label: Text("Food"),
               ),
               title: Text("Food stuff"),
