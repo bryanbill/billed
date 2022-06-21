@@ -11,8 +11,7 @@ class _AllBillsState extends State<AllBills> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-          centerTitle: true, title: const Text("All Bills"), actions: []),
+      appBar: AppBar(centerTitle: true, title: const Text("All Bills")),
       body: Container(
         padding: const EdgeInsets.all(10),
         height: MediaQuery.of(context).size.height,

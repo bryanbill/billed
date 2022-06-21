@@ -1,4 +1,5 @@
 import 'package:billed/screens/all_bills.dart';
+import 'package:billed/screens/friends_list.dart';
 import 'package:flutter/material.dart';
 
 class Dashboard extends StatelessWidget {
@@ -38,7 +39,7 @@ class Dashboard extends StatelessWidget {
               decoration: BoxDecoration(
                   boxShadow: [
                     BoxShadow(
-                        offset: const Offset(5, 10),
+                        offset: const Offset(4, 4),
                         color: Theme.of(context).primaryColorLight),
                   ],
                   color: Theme.of(context).primaryColor,
@@ -84,26 +85,40 @@ class Dashboard extends StatelessWidget {
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceAround,
               children: [
-                Container(
-                  height: 70,
-                  width: MediaQuery.of(context).size.width / 3 - 50,
-                  alignment: Alignment.center,
-                  decoration: BoxDecoration(
-                      border: Border.all(),
-                      borderRadius: BorderRadius.circular(10),
-                      color: Color.fromARGB(255, 249, 249, 249)),
-                  child: const Icon(Icons.people_alt),
+                GestureDetector(
+                  onTap: () => Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => const FriendsList())),
+                  child: Container(
+                    height: 70,
+                    width: MediaQuery.of(context).size.width / 3 - 50,
+                    alignment: Alignment.center,
+                    decoration: BoxDecoration(
+                        border: Border.all(),
+                        borderRadius: BorderRadius.circular(10),
+                        color: const Color.fromARGB(255, 249, 249, 249)),
+                    child: const Icon(Icons.people_alt),
+                  ),
                 ),
-                Container(
-                  height: 90,
-                  width: MediaQuery.of(context).size.width / 3 - 40,
-                  alignment: Alignment.center,
-                  decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(10),
-                      color: Theme.of(context).primaryColorLight),
-                  child: const Icon(
-                    Icons.add,
-                    size: 32,
+                GestureDetector(
+                  onTap: () =>
+                  child: Container(
+                    height: 90,
+                    width: MediaQuery.of(context).size.width / 3 - 40,
+                    alignment: Alignment.center,
+                    decoration: BoxDecoration(
+                        boxShadow: [
+                          BoxShadow(
+                              offset: const Offset(2, 2),
+                              color: Theme.of(context).primaryColor)
+                        ],
+                        borderRadius: BorderRadius.circular(10),
+                        color: Theme.of(context).primaryColorLight),
+                    child: const Icon(
+                      Icons.add,
+                      size: 32,
+                    ),
                   ),
                 ),
                 Container(
@@ -156,7 +171,7 @@ class Dashboard extends StatelessWidget {
         ),
       ),
       floatingActionButton: FloatingActionButton(
-          child: Icon(Icons.person_add_alt), onPressed: () => {}),
+          child: const Icon(Icons.person_add_alt), onPressed: () => {}),
     );
   }
 }
