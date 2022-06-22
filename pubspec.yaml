@@ -37,6 +37,7 @@ dependencies:
   concentric_transition: ^1.0.3
   qr_flutter: ^4.0.0
   qr_code_scanner: ^1.0.0
+  mobile_scanner: ^2.0.0
 
 dev_dependencies:
   flutter_test:
