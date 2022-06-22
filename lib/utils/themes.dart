@@ -6,6 +6,7 @@ ThemeData lightTheme() => ThemeData(
       brightness: Brightness.light,
       canvasColor: Colors.white,
       backgroundColor: Colors.white,
+      fontFamily: "Lato",
       appBarTheme: const AppBarTheme(
         color: Colors.white,
         elevation: 0,
