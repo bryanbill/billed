@@ -119,15 +119,24 @@ class _AllBillsState extends State<AllBills> {
                                     TextButton(
                                       child: const Text("Share"),
                                       onPressed: () {
-                                        FirebaseFirestore.instance
-                                            .collection("bills")
-                                            .doc(bill.id)
-                                            .update({
-                                          "user": FieldValue.arrayUnion([
-                                            _controller.dropDownValue!.value
-                                          ])
-                                        });
-                                        Navigator.of(context).pop();
+                                        if (_controller.dropDownValue == null) {
+                                          ScaffoldMessenger.of(context)
+                                              .showSnackBar(const SnackBar(
+                                            content:
+                                                Text("Please select a friend"),
+                                            duration: Duration(seconds: 2),
+                                          ));
+                                        } else {
+                                          FirebaseFirestore.instance
+                                              .collection("bills")
+                                              .doc(bill.id)
+                                              .update({
+                                            "user": FieldValue.arrayUnion([
+                                              _controller.dropDownValue!.value
+                                            ])
+                                          });
+                                          Navigator.of(context).pop();
+                                        }
                                       },
                                     )
                                   ],
