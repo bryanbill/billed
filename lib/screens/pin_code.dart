@@ -1,8 +1,12 @@
 import 'package:billed/utils/app_router.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
 class PinCode extends StatefulWidget {
-  const PinCode({Key? key}) : super(key: key);
+  final String verificationId;
+  final FirebaseAuth auth;
+  const PinCode({Key? key, required this.auth, required this.verificationId})
+      : super(key: key);
 
   @override
   State<PinCode> createState() => _PinCodeState();
@@ -13,11 +17,23 @@ class _PinCodeState extends State<PinCode> {
   @override
   void initState() {
     super.initState();
-    _pinController.addListener(() {
-      _pinController.text.length == 6
-          ? Navigator.of(context)
-              .pushNamedAndRemoveUntil(AppRouter.dashboard, (_) => false)
-          : null;
+    _pinController.addListener(() async {
+      if (_pinController.text.length == 6) {
+        final code = _pinController.text;
+        AuthCredential credential = PhoneAuthProvider.credential(
+            verificationId: widget.verificationId, smsCode: code);
+
+        UserCredential result =
+            await widget.auth.signInWithCredential(credential);
+
+        if (result.user != null) {
+          await Navigator.pushNamedAndRemoveUntil(
+              context, AppRouter.dashboard, (route) => false);
+        } else {
+          ScaffoldMessenger.of(context)
+              .showSnackBar(SnackBar(content: Text("Verification failed")));
+        }
+      }
     });
   }
 

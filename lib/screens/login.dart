@@ -1,8 +1,33 @@
 import 'package:billed/screens/pin_code.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
-class Login extends StatelessWidget {
+class Login extends StatefulWidget {
   const Login({Key? key}) : super(key: key);
+
+  @override
+  State<Login> createState() => _LoginState();
+}
+
+class _LoginState extends State<Login> {
+  final TextEditingController _controller = TextEditingController();
+
+  void loginUser() {
+    FirebaseAuth auth = FirebaseAuth.instance;
+    auth.verifyPhoneNumber(
+        phoneNumber: "+254${_controller.text}",
+        verificationCompleted: (_) => {},
+        verificationFailed: (_) =>
+            const ScaffoldMessenger(child: Text("Verification failed")),
+        codeSent: (String verificationId, _) => {
+              Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (_) =>
+                          PinCode(auth: auth, verificationId: verificationId)))
+            },
+        codeAutoRetrievalTimeout: (_) => {});
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -47,6 +72,7 @@ class Login extends StatelessWidget {
               height: 30,
             ),
             TextField(
+              controller: _controller,
               keyboardType: TextInputType.number,
               style: Theme.of(context).textTheme.bodyText1,
               decoration: InputDecoration(
@@ -95,17 +121,15 @@ class Login extends StatelessWidget {
                             contentPadding:
                                 const EdgeInsets.only(left: 10, right: 10),
                             alignment: Alignment.center,
-                            content: const Text(
-                              'Is this your number? +254 789 789 789',
+                            content: Text(
+                              'Is this your number? +254 ${_controller.text}',
                             ),
                             actions: [
                               TextButton(
                                   onPressed: () => Navigator.pop(context),
                                   child: const Text("Edit")),
                               TextButton(
-                                  onPressed: () => Navigator.of(context).push(
-                                      MaterialPageRoute(
-                                          builder: (_) => const PinCode())),
+                                  onPressed: () => loginUser(),
                                   child: const Text("Yes"))
                             ],
                             actionsAlignment: MainAxisAlignment.spaceBetween,
