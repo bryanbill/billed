@@ -1,5 +1,6 @@
 import 'package:billed/models/bill_model.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:dropdown_textfield/dropdown_textfield.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
@@ -15,6 +16,28 @@ class _AllBillsState extends State<AllBills> {
       .collection('bills')
       .where("user", arrayContains: FirebaseAuth.instance.currentUser!.uid)
       .snapshots();
+  FocusNode searchFocusNode = FocusNode();
+  FocusNode textFieldFocusNode = FocusNode();
+  List<DropDownValueModel> options() {
+    List<DropDownValueModel> options = [];
+    //Get all friends
+    FirebaseFirestore.instance
+        .collection("users")
+        .doc(FirebaseAuth.instance.currentUser!.uid)
+        .collection("friends")
+        .get()
+        .then((value) {
+      for (var element in value.docs) {
+        var data = element.data();
+        options.add(DropDownValueModel(
+          value: data["user"],
+          name: data["user"],
+        ));
+      }
+    });
+    return options;
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -63,18 +86,30 @@ class _AllBillsState extends State<AllBills> {
                             .update({'isPaid': true});
                         setState(() {});
                       },
-                      background: Icon(Icons.mark_email_read),
+                      background: const Icon(Icons.mark_email_read),
                       child: GestureDetector(
                         onTap: () => showDialog(
                             context: context,
                             builder: (_) => AlertDialog(
-                                  content: TextField(),
+                                  title: const Text("Share with"),
+                                  content: DropDownTextField(
+                                    clearOption: false,
+                                    textFieldFocusNode: textFieldFocusNode,
+                                    searchFocusNode: searchFocusNode,
+                                    // searchAutofocus: true,
+                                    dropDownItemCount: 8,
+                                    searchShowCursor: false,
+                                    enableSearch: true,
+                                    searchKeyboardType: TextInputType.number,
+                                    dropDownList: [...options()],
+                                    onChanged: (val) {},
+                                  ),
                                 )),
                         child: Container(
                           height: 150,
                           width: MediaQuery.of(context).size.width,
                           padding: const EdgeInsets.all(10),
-                          margin: EdgeInsets.only(bottom: 10),
+                          margin: const EdgeInsets.only(bottom: 10),
                           decoration: BoxDecoration(
                               borderRadius: BorderRadius.circular(10),
                               color: const Color.fromARGB(255, 243, 233, 237)),
@@ -96,7 +131,7 @@ class _AllBillsState extends State<AllBills> {
                                       backgroundColor: bill.isPaid!
                                           ? Colors.blueAccent
                                           : status == "Overdue"
-                                              ? Color.fromARGB(
+                                              ? const Color.fromARGB(
                                                   255, 239, 132, 132)
                                               : Colors.greenAccent,
                                       label: Text(status))
