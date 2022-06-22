@@ -1,5 +1,6 @@
 import 'package:billed/utils/app_router.dart';
 import 'package:concentric_transition/concentric_transition.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
 final pages = [
@@ -40,16 +41,17 @@ class Onboarding extends StatelessWidget {
             size: screenWidth * 0.08,
           ),
         ),
-        onFinish: () =>
-            Navigator.of(context).pushReplacementNamed(AppRouter.login),
-        // itemCount: pages.length,
-        // duration: const Duration(milliseconds: 1500),
-        // opacityFactor: 2.0,
-        // scaleFactor: 0.2,
-        // verticalPosition: 0.7,
-        // direction: Axis.vertical,
-        // itemCount: pages.length,
-        // physics: NeverScrollableScrollPhysics(),
+        onFinish: () async {
+          // Check if user is already logged in
+          final user = FirebaseAuth.instance.currentUser;
+          if (user != null) {
+            await Navigator.pushNamedAndRemoveUntil(
+                context, AppRouter.dashboard, (route) => false);
+          } else {
+            await Navigator.pushNamed(context, AppRouter.home);
+          }
+        },
+
         itemBuilder: (index) {
           final page = pages[index % pages.length];
           return SafeArea(
