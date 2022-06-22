@@ -1,3 +1,5 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:mobile_scanner/mobile_scanner.dart';
 
@@ -32,15 +34,25 @@ class _QrScannerState extends State<QrScanner>
                 controller: controller,
                 fit: BoxFit.contain,
                 onDetect: (barcode, args) {
-                  setState(() {
-                    this.barcode = barcode.rawValue;
+                  //Create friends collection for both users
+                  FirebaseFirestore.instance
+                      .collection("users")
+                      .doc(FirebaseAuth.instance.currentUser!.uid)
+                      .collection("friends")
+                      .add({
+                    "user": barcode.rawValue,
+                    "createdAt": FieldValue.serverTimestamp()
                   });
-                  ScaffoldMessenger.of(context).showSnackBar(
-                    SnackBar(
-                      content: Text(barcode.rawValue ?? ""),
-                      duration: Duration(seconds: 4),
-                    ),
-                  );
+
+                  FirebaseFirestore.instance
+                      .collection("users")
+                      .doc(barcode.rawValue)
+                      .collection("friends")
+                      .add({
+                    "user": FirebaseAuth.instance.currentUser!.uid,
+                    "createdAt": FieldValue.serverTimestamp()
+                  });
+                  Navigator.of(context).pop();
                 },
               ),
               Align(

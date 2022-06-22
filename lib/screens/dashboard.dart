@@ -109,8 +109,8 @@ class _DashboardState extends State<Dashboard> {
                         Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                          children: const [
-                            Text(
+                          children: [
+                            const Text(
                               "Average Bill",
                               style: TextStyle(
                                   fontSize: 20,
@@ -118,8 +118,8 @@ class _DashboardState extends State<Dashboard> {
                                   color: Colors.white),
                             ),
                             Text(
-                              "Kes. 00.00",
-                              style: TextStyle(
+                              "Kes.${(totalAmount / bills.length).floor()}/bill",
+                              style: const TextStyle(
                                   fontSize: 16, color: Colors.white70),
                             )
                           ],
@@ -128,7 +128,7 @@ class _DashboardState extends State<Dashboard> {
                         Text(
                           "Kes. $totalAmount\nPending",
                           textAlign: TextAlign.end,
-                          style: TextStyle(
+                          style: const TextStyle(
                               color: Colors.white,
                               fontSize: 16,
                               fontWeight: FontWeight.bold),

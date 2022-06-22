@@ -34,6 +34,7 @@ class _AllBillsState extends State<AllBills> {
                 bills.add(BillModel.fromJson(data, element.id));
               }
             }
+            bills.sort((a, b) => b.date!.compareTo(a.date!));
             return Container(
               padding: const EdgeInsets.all(10),
               height: MediaQuery.of(context).size.height,
