@@ -1,3 +1,6 @@
+import 'package:billed/screens/widgets/friends_list.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
 class FriendsList extends StatefulWidget {
@@ -8,6 +11,11 @@ class FriendsList extends StatefulWidget {
 }
 
 class _FriendsListState extends State<FriendsList> {
+  final Stream<QuerySnapshot> _friendsStream = FirebaseFirestore.instance
+      .collection('users')
+      .doc(FirebaseAuth.instance.currentUser!.uid)
+      .collection("friends")
+      .snapshots();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -15,55 +23,54 @@ class _FriendsListState extends State<FriendsList> {
           centerTitle: true,
           title: const Text('Friends'),
         ),
-        body: Container(
-            padding: const EdgeInsets.all(10),
-            height: MediaQuery.of(context).size.height,
-            child: ListView(
-              children: [
-                Container(
-                  height: 100,
-                  padding: const EdgeInsets.only(left: 10, right: 10),
-                  alignment: Alignment.center,
-                  width: MediaQuery.of(context).size.width,
-                  decoration: BoxDecoration(
-                      boxShadow: [
-                        BoxShadow(
-                            offset: const Offset(2, 2),
-                            color: Theme.of(context).primaryColor)
-                      ],
-                      borderRadius: BorderRadius.circular(10),
-                      color: Theme.of(context).primaryColorLight),
-                  child: Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: const [
-                        CircleAvatar(
-                          child: Text("20"),
-                        ),
-                        SizedBox(
-                          width: 10,
-                        ),
-                        Text(
-                          "Connections",
-                          style: TextStyle(fontWeight: FontWeight.bold),
-                        )
-                      ]),
-                ),
-                const SizedBox(
-                  height: 20,
-                ),
-                ListTile(
-                  leading: ClipRRect(
-                    borderRadius: BorderRadius.circular(100),
-                    child: Image.network(
-                      "https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460__340.png",
-                      fit: BoxFit.cover,
-                    ),
-                  ),
-                  title: Text("John Doe"),
-                  subtitle: Text("4 bills"),
-                  trailing: Icon(Icons.more_vert),
-                )
-              ],
-            )));
+        body: StreamBuilder<QuerySnapshot>(
+            stream: null,
+            builder: (context, snapshot) {
+              List<Map<String, dynamic>> friends = [];
+              if (snapshot.hasData) {
+                for (var element in snapshot.data!.docs) {
+                  friends.add(element.data() as Map<String, dynamic>);
+                }
+              }
+              return Container(
+                  padding: const EdgeInsets.all(10),
+                  height: MediaQuery.of(context).size.height,
+                  child: ListView(
+                    children: [
+                      Container(
+                        height: 100,
+                        padding: const EdgeInsets.only(left: 10, right: 10),
+                        alignment: Alignment.center,
+                        width: MediaQuery.of(context).size.width,
+                        decoration: BoxDecoration(
+                            boxShadow: [
+                              BoxShadow(
+                                  offset: const Offset(2, 2),
+                                  color: Theme.of(context).primaryColor)
+                            ],
+                            borderRadius: BorderRadius.circular(10),
+                            color: Theme.of(context).primaryColorLight),
+                        child: Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              CircleAvatar(
+                                child: Text(friends.length.toString()),
+                              ),
+                              const SizedBox(
+                                width: 10,
+                              ),
+                              const Text(
+                                "Connections",
+                                style: TextStyle(fontWeight: FontWeight.bold),
+                              )
+                            ]),
+                      ),
+                      const SizedBox(
+                        height: 20,
+                      ),
+                      ...friendsList(friends)
+                    ],
+                  ));
+            }));
   }
 }

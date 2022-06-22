@@ -64,55 +64,65 @@ class _AllBillsState extends State<AllBills> {
                         setState(() {});
                       },
                       background: Icon(Icons.mark_email_read),
-                      child: Container(
-                        height: 150,
-                        width: MediaQuery.of(context).size.width,
-                        padding: const EdgeInsets.all(10),
-                        margin: EdgeInsets.only(bottom: 10),
-                        decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(10),
-                            color: const Color.fromARGB(255, 243, 233, 237)),
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          mainAxisAlignment: MainAxisAlignment.spaceAround,
-                          children: [
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                Text(
-                                  "${bill.title}",
-                                  style: const TextStyle(
-                                      fontWeight: FontWeight.bold,
-                                      fontSize: 18),
-                                ),
-                                Chip(
-                                    backgroundColor: bill.isPaid!
-                                        ? Colors.blueAccent
-                                        : status == "Overdue"
-                                            ? Color.fromARGB(255, 239, 132, 132)
-                                            : Colors.greenAccent,
-                                    label: Text(status))
-                              ],
-                            ),
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                Text(
-                                  "${bill.category}",
-                                  style: const TextStyle(
-                                      fontWeight: FontWeight.bold,
-                                      fontSize: 18),
-                                ),
-                                Text("Kes. ${bill.amount}")
-                              ],
-                            ),
-                            const Divider(
-                              color: Colors.black,
-                              thickness: 2.0,
-                            ),
-                            Text(
-                                "$user by ${date.day}/${date.month}/${date.year}")
-                          ],
+                      child: GestureDetector(
+                        onTap: () => showDialog(
+                            context: context,
+                            builder: (_) => AlertDialog(
+                                  content: TextField(),
+                                )),
+                        child: Container(
+                          height: 150,
+                          width: MediaQuery.of(context).size.width,
+                          padding: const EdgeInsets.all(10),
+                          margin: EdgeInsets.only(bottom: 10),
+                          decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(10),
+                              color: const Color.fromARGB(255, 243, 233, 237)),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            mainAxisAlignment: MainAxisAlignment.spaceAround,
+                            children: [
+                              Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
+                                children: [
+                                  Text(
+                                    "${bill.title}",
+                                    style: const TextStyle(
+                                        fontWeight: FontWeight.bold,
+                                        fontSize: 18),
+                                  ),
+                                  Chip(
+                                      backgroundColor: bill.isPaid!
+                                          ? Colors.blueAccent
+                                          : status == "Overdue"
+                                              ? Color.fromARGB(
+                                                  255, 239, 132, 132)
+                                              : Colors.greenAccent,
+                                      label: Text(status))
+                                ],
+                              ),
+                              Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
+                                children: [
+                                  Text(
+                                    "${bill.category}",
+                                    style: const TextStyle(
+                                        fontWeight: FontWeight.bold,
+                                        fontSize: 18),
+                                  ),
+                                  Text("Kes. ${bill.amount}")
+                                ],
+                              ),
+                              const Divider(
+                                color: Colors.black,
+                                thickness: 2.0,
+                              ),
+                              Text(
+                                  "$user by ${date.day}/${date.month}/${date.year}")
+                            ],
+                          ),
                         ),
                       ),
                     );
