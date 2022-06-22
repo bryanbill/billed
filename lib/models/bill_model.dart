@@ -34,7 +34,7 @@ class BillModel {
         'title': title,
         'category': category,
         'amount': amount,
-        'date': Timestamp.now().millisecondsSinceEpoch,
+        'date': date!.millisecondsSinceEpoch,
         'user': user,
         "isPaid": false
       };

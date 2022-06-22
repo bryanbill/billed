@@ -49,6 +49,7 @@ class _AddBillAlertState extends State<AddBillAlert> {
           amount: _amountController.text,
           title: _nameController.text,
           category: _categoryController.text,
+          date: Timestamp.fromDate(DateTime.parse(_dateController.text)),
           user: [FirebaseAuth.instance.currentUser!.uid]);
       FirebaseFirestore.instance
           .collection("bills")

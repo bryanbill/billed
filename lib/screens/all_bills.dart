@@ -35,7 +35,6 @@ class _AllBillsState extends State<AllBills> {
         .get()
         .then((value) {
       for (var element in value.docs) {
-        print(element.data()['user']);
         var data = element.data();
         options.add(DropDownValueModel(
           value: data["user"],
@@ -72,133 +71,143 @@ class _AllBillsState extends State<AllBills> {
             return Container(
               padding: const EdgeInsets.all(10),
               height: MediaQuery.of(context).size.height,
-              child: ListView.builder(
-                  itemCount: bills.length,
-                  itemBuilder: (context, index) {
-                    var bill = bills[index];
-                    String status = bill.isPaid!
-                        ? "Paid"
-                        : DateTime.now()
-                                .difference(bill.date!.toDate())
-                                .isNegative
-                            ? "Overdue"
-                            : "Unpaid";
+              child: bills.isEmpty
+                  ? const Center(
+                      child: Text("Nothing here"),
+                    )
+                  : ListView.builder(
+                      itemCount: bills.length,
+                      itemBuilder: (context, index) {
+                        var bill = bills[index];
+                        String status = bill.isPaid!
+                            ? "Paid"
+                            : bill.date!
+                                    .toDate()
+                                    .difference(DateTime.now())
+                                    .isNegative
+                                ? "Overdue"
+                                : "Unpaid";
 
-                    String user = bill.user!.last.toString().substring(2, 8);
+                        String user =
+                            bill.user!.last.toString().substring(2, 8);
 
-                    var date = bill.date!.toDate();
+                        var date = bill.date!.toDate();
 
-                    return Dismissible(
-                      key: UniqueKey(),
-                      onDismissed: (DismissDirection direction) {
-                        FirebaseFirestore.instance
-                            .collection('bills')
-                            .doc(bill.id!)
-                            .update({'isPaid': true});
-                        setState(() {});
-                      },
-                      background: const Icon(Icons.mark_email_read),
-                      child: GestureDetector(
-                        onTap: () => showDialog(
-                            context: context,
-                            builder: (_) => AlertDialog(
-                                  title: const Text("Share with"),
-                                  content: DropDownTextField(
-                                    clearOption: false,
-                                    singleController: _controller,
-                                    textFieldFocusNode: textFieldFocusNode,
-                                    searchFocusNode: searchFocusNode,
-                                    dropDownItemCount: 8,
-                                    searchShowCursor: false,
-                                    enableSearch: true,
-                                    searchKeyboardType: TextInputType.number,
-                                    dropDownList: options,
-                                    onChanged: (val) {},
-                                  ),
-                                  actions: [
-                                    TextButton(
-                                      child: const Text("Share"),
-                                      onPressed: () {
-                                        if (_controller.dropDownValue == null) {
-                                          ScaffoldMessenger.of(context)
-                                              .showSnackBar(const SnackBar(
-                                            content:
-                                                Text("Please select a friend"),
-                                            duration: Duration(seconds: 2),
-                                          ));
-                                        } else {
-                                          FirebaseFirestore.instance
-                                              .collection("bills")
-                                              .doc(bill.id)
-                                              .update({
-                                            "user": FieldValue.arrayUnion([
-                                              _controller.dropDownValue!.value
-                                            ])
-                                          });
-                                          Navigator.of(context).pop();
-                                        }
-                                      },
-                                    )
-                                  ],
-                                )),
-                        child: Container(
-                          height: 150,
-                          width: MediaQuery.of(context).size.width,
-                          padding: const EdgeInsets.all(10),
-                          margin: const EdgeInsets.only(bottom: 10),
-                          decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(10),
-                              color: Color.fromARGB(255, 246, 242, 243)),
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            mainAxisAlignment: MainAxisAlignment.spaceAround,
-                            children: [
-                              Row(
+                        return Dismissible(
+                          key: UniqueKey(),
+                          onDismissed: (DismissDirection direction) {
+                            FirebaseFirestore.instance
+                                .collection('bills')
+                                .doc(bill.id!)
+                                .update({'isPaid': true});
+                            setState(() {});
+                          },
+                          background: const Icon(Icons.mark_email_read),
+                          child: GestureDetector(
+                            onTap: () => showDialog(
+                                context: context,
+                                builder: (_) => AlertDialog(
+                                      title: const Text("Share with"),
+                                      content: DropDownTextField(
+                                        clearOption: false,
+                                        singleController: _controller,
+                                        textFieldFocusNode: textFieldFocusNode,
+                                        searchFocusNode: searchFocusNode,
+                                        dropDownItemCount: 8,
+                                        searchShowCursor: false,
+                                        enableSearch: true,
+                                        searchKeyboardType:
+                                            TextInputType.number,
+                                        dropDownList: options,
+                                        onChanged: (val) {},
+                                      ),
+                                      actions: [
+                                        TextButton(
+                                          child: const Text("Share"),
+                                          onPressed: () {
+                                            if (_controller.dropDownValue ==
+                                                null) {
+                                              ScaffoldMessenger.of(context)
+                                                  .showSnackBar(const SnackBar(
+                                                content: Text(
+                                                    "Please select a friend"),
+                                                duration: Duration(seconds: 2),
+                                              ));
+                                            } else {
+                                              FirebaseFirestore.instance
+                                                  .collection("bills")
+                                                  .doc(bill.id)
+                                                  .update({
+                                                "user": FieldValue.arrayUnion([
+                                                  _controller
+                                                      .dropDownValue!.value
+                                                ])
+                                              });
+                                              Navigator.of(context).pop();
+                                            }
+                                          },
+                                        )
+                                      ],
+                                    )),
+                            child: Container(
+                              height: 150,
+                              width: MediaQuery.of(context).size.width,
+                              padding: const EdgeInsets.all(10),
+                              margin: const EdgeInsets.only(bottom: 10),
+                              decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(10),
+                                  color: Color.fromARGB(255, 246, 242, 243)),
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
                                 mainAxisAlignment:
-                                    MainAxisAlignment.spaceBetween,
+                                    MainAxisAlignment.spaceAround,
                                 children: [
-                                  Text(
-                                    "${bill.title}",
-                                    style: const TextStyle(
-                                        fontWeight: FontWeight.bold,
-                                        fontSize: 18),
+                                  Row(
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceBetween,
+                                    children: [
+                                      Text(
+                                        "${bill.title}",
+                                        style: const TextStyle(
+                                            fontWeight: FontWeight.bold,
+                                            fontSize: 18),
+                                      ),
+                                      Chip(
+                                          backgroundColor: bill.isPaid!
+                                              ? Colors.blueAccent
+                                              : status == "Overdue"
+                                                  ? const Color.fromARGB(
+                                                      255, 239, 132, 132)
+                                                  : Colors.greenAccent,
+                                          label: Text(status))
+                                    ],
                                   ),
-                                  Chip(
-                                      backgroundColor: bill.isPaid!
-                                          ? Colors.blueAccent
-                                          : status == "Overdue"
-                                              ? const Color.fromARGB(
-                                                  255, 239, 132, 132)
-                                              : Colors.greenAccent,
-                                      label: Text(status))
+                                  Row(
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceBetween,
+                                    children: [
+                                      Text(
+                                        "${bill.category}",
+                                        style: TextStyle(
+                                            fontWeight: FontWeight.bold,
+                                            color: Colors.grey[700],
+                                            fontSize: 18),
+                                      ),
+                                      Text("Kes. ${bill.amount}")
+                                    ],
+                                  ),
+                                  const Divider(
+                                    color: Colors.black,
+                                    thickness: 2.0,
+                                  ),
+                                  Text(
+                                      "$user by ${date.day}/${date.month}/${date.year}")
                                 ],
                               ),
-                              Row(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceBetween,
-                                children: [
-                                  Text(
-                                    "${bill.category}",
-                                    style: TextStyle(
-                                        fontWeight: FontWeight.bold,
-                                        color: Colors.grey[700],
-                                        fontSize: 18),
-                                  ),
-                                  Text("Kes. ${bill.amount}")
-                                ],
-                              ),
-                              const Divider(
-                                color: Colors.black,
-                                thickness: 2.0,
-                              ),
-                              Text(
-                                  "$user by ${date.day}/${date.month}/${date.year}")
-                            ],
+                            ),
                           ),
-                        ),
-                      ),
-                    );
-                  }),
+                        );
+                      }),
             );
           }),
     );
