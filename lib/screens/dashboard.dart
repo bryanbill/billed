@@ -2,6 +2,7 @@ import 'package:billed/screens/all_bills.dart';
 import 'package:billed/screens/friends_list.dart';
 import 'package:billed/screens/widgets/add_bill_alert.dart';
 import 'package:billed/screens/widgets/qr_widget.dart';
+import 'package:billed/screens/widgets/scan_qr.dart';
 import 'package:flutter/material.dart';
 
 class Dashboard extends StatelessWidget {
@@ -186,7 +187,9 @@ class Dashboard extends StatelessWidget {
         ),
       ),
       floatingActionButton: FloatingActionButton(
-          child: const Icon(Icons.person_add_alt), onPressed: () => {}),
+          child: const Icon(Icons.person_add_alt),
+          onPressed: () => Navigator.of(context)
+              .push(MaterialPageRoute(builder: (_) => const QrScanner()))),
     );
   }
 }
