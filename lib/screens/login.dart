@@ -137,7 +137,7 @@ class _LoginState extends State<Login> {
                         )),
                 child: Text(
                   "Next",
-                  style: Theme.of(context).textTheme.headline3,
+                  style: Theme.of(context).textTheme.headline5,
                 ))
           ],
         ),
