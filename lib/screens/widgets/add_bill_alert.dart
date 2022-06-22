@@ -49,7 +49,7 @@ class _AddBillAlertState extends State<AddBillAlert> {
           amount: _amountController.text,
           title: _nameController.text,
           category: _categoryController.text,
-          user: FirebaseAuth.instance.currentUser!.uid);
+          user: [FirebaseAuth.instance.currentUser!.uid]);
       FirebaseFirestore.instance
           .collection("bills")
           .add(bill.toMap())
@@ -88,7 +88,6 @@ class _AddBillAlertState extends State<AddBillAlert> {
                       });
                       Navigator.pop(context);
                     },
-                    
                     child: Row(
                       children: const [
                         Icon(

@@ -41,14 +41,15 @@ class Onboarding extends StatelessWidget {
             size: screenWidth * 0.08,
           ),
         ),
-        onFinish: () async {
+        itemCount: pages.length,
+        onFinish: () {
           // Check if user is already logged in
           final user = FirebaseAuth.instance.currentUser;
           if (user != null) {
-            await Navigator.pushNamedAndRemoveUntil(
+            Navigator.pushNamedAndRemoveUntil(
                 context, AppRouter.dashboard, (route) => false);
           } else {
-            await Navigator.pushNamed(context, AppRouter.login);
+            Navigator.pushNamed(context, AppRouter.login);
           }
         },
 

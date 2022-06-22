@@ -6,7 +6,7 @@ class BillModel {
   final String? category;
   final String? amount;
   final Timestamp? date;
-  final String? user;
+  final List? user;
 
   BillModel({
     this.id,
@@ -18,14 +18,14 @@ class BillModel {
   });
 
   factory BillModel.fromJson(Map<String, dynamic> json) {
+    print(json);
     return BillModel(
-      id: json['id'],
-      title: json['title'],
-      category: json['category'],
-      amount: json['amount'],
-      date: Timestamp.fromMillisecondsSinceEpoch(json['date']),
-      user: json['user'],
-    );
+        id: json['id'],
+        title: json['title'],
+        category: json['category'],
+        amount: json['amount'],
+        date: Timestamp.fromMillisecondsSinceEpoch(json['date']),
+        user: json['user']);
   }
 
   toMap() => {
