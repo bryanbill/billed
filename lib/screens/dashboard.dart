@@ -1,5 +1,6 @@
 import 'package:billed/screens/all_bills.dart';
 import 'package:billed/screens/friends_list.dart';
+import 'package:billed/screens/widgets/AddBillAlert.dart';
 import 'package:flutter/material.dart';
 
 class Dashboard extends StatelessWidget {
@@ -102,7 +103,8 @@ class Dashboard extends StatelessWidget {
                   ),
                 ),
                 GestureDetector(
-                  onTap: () =>
+                  onTap: () => showDialog(
+                      context: context, builder: (_) => const AddBillAlert()),
                   child: Container(
                     height: 90,
                     width: MediaQuery.of(context).size.width / 3 - 40,
@@ -121,15 +123,21 @@ class Dashboard extends StatelessWidget {
                     ),
                   ),
                 ),
-                Container(
-                  height: 70,
-                  width: MediaQuery.of(context).size.width / 3 - 50,
-                  alignment: Alignment.center,
-                  decoration: BoxDecoration(
-                      border: Border.all(),
-                      borderRadius: BorderRadius.circular(10),
-                      color: Colors.white),
-                  child: const Icon(Icons.share),
+                GestureDetector(
+                  onTap: () => Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => const AllBills())),
+                  child: Container(
+                    height: 70,
+                    width: MediaQuery.of(context).size.width / 3 - 50,
+                    alignment: Alignment.center,
+                    decoration: BoxDecoration(
+                        border: Border.all(),
+                        borderRadius: BorderRadius.circular(10),
+                        color: Colors.white),
+                    child: const Icon(Icons.payments_outlined),
+                  ),
                 )
               ],
             ),
