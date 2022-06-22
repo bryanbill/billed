@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "1057067821257",
+    "project_id": "billed-62ec8",
+    "storage_bucket": "billed-62ec8.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1057067821257:android:e36ee97c7d8e2e38d50518",
+        "android_client_info": {
+          "package_name": "com.namani.billed"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1057067821257-4kgtcefsfofbvo3ojof9eiek1n9mec8r.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.namani.billed",
+            "certificate_hash": "6e2e52f96142c35eb6f94077d1a2d2eb23b6bdc1"
+          }
+        },
+        {
+          "client_id": "1057067821257-v2k7rrdoequ0ras394va66ti0iu1dnpg.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyATYARGhm4yMisR4Au0bbJS9_GSWCTD8iI"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1057067821257-v2k7rrdoequ0ras394va66ti0iu1dnpg.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
