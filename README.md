@@ -12,6 +12,12 @@
 
 - Billed is a finance management application that allows users to track their expenses, incomes and shareable budgets.
 
+### Screenshots
+![Billed](./screenshots/1.jpg)
+![Billed](./screenshots/4.jpg)
+![Billed](./screenshots/6.jpg)
+![Billed](./screenshots/8.jpg)
+
 ## Setup Instructions
 
 - This project is built using Flutter Framework, prerequiste installation is required.
@@ -22,6 +28,10 @@ HTTPS: `git clone https://github.com/bryanbill/billed.git`
 
 SSH: `git clone git@github.com:bryanbill/billed.git`
 
+### Cd into the project directory
+```bash
+cd billed && flutter run
+```
 
 
 ## Languages and Frameworks
