@@ -1,6 +1,6 @@
 import 'package:billed/screens/all_bills.dart';
 import 'package:billed/screens/friends_list.dart';
-import 'package:billed/screens/widgets/AddBillAlert.dart';
+import 'package:billed/screens/widgets/add_bill_alert.dart';
 import 'package:flutter/material.dart';
 
 class Dashboard extends StatelessWidget {
