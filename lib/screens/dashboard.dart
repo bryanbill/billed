@@ -62,6 +62,25 @@ class _DashboardState extends State<Dashboard> {
                   child: Text('Error'),
                 );
               }
+              List<BillModel> bills = [];
+              if (snapshot.hasData) {
+                for (var element in snapshot.data!.docs) {
+                  var data = element.data() as Map<String, dynamic>;
+                  bills.add(BillModel.fromJson(data, element.id));
+                }
+              }
+
+              //Sum the total amount of bills
+              double totalAmount = 0;
+              for (BillModel bill in bills) {
+                if (!bill.isPaid!) {
+                  totalAmount +=
+                      double.parse(bill.amount!.replaceAll(RegExp(r','), ""));
+                }
+              }
+
+              bills.sort((a, b) => a.date!.compareTo(b.date!));
+
               return ListView(
                 children: [
                   Text(
@@ -99,15 +118,15 @@ class _DashboardState extends State<Dashboard> {
                                   color: Colors.white),
                             ),
                             Text(
-                              "Kes. 200,000",
+                              "Kes. 00.00",
                               style: TextStyle(
                                   fontSize: 16, color: Colors.white70),
                             )
                           ],
                         ),
                         const Spacer(),
-                        const Text(
-                          "Kes. 234,000\nPending",
+                        Text(
+                          "Kes. $totalAmount\nPending",
                           textAlign: TextAlign.end,
                           style: TextStyle(
                               color: Colors.white,
@@ -200,7 +219,7 @@ class _DashboardState extends State<Dashboard> {
                   const SizedBox(
                     height: 10,
                   ),
-                  ...recents(snapshot.hasData ? snapshot.data!.docs : [])
+                  ...recents(bills)
                 ],
               );
             }),
