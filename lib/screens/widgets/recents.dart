@@ -8,13 +8,15 @@ List<Widget> recents(List<BillModel> bills) {
   for (BillModel bill in bills) {
     var date = bill.date!.toDate();
     widgets.add(ListTile(
-      leading: Chip(
-        backgroundColor:const Color.fromARGB(255, 166, 235, 168),
-        label: Text(bill.category!),
-      ),
       title: Text(bill.title!),
       subtitle: Text("Kes. ${bill.amount}"),
-      trailing: Text("${date.day}/${date.month}/${date.year}"),
+      trailing: Column(
+        mainAxisSize: MainAxisSize.min,
+        crossAxisAlignment: CrossAxisAlignment.end,
+        children: [
+          Text("${date.day}/${date.month}/${date.year}"),
+        ],
+      ),
     ));
   }
 

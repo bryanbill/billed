@@ -139,7 +139,7 @@ class _AllBillsState extends State<AllBills> {
                           margin: const EdgeInsets.only(bottom: 10),
                           decoration: BoxDecoration(
                               borderRadius: BorderRadius.circular(10),
-                              color: const Color.fromARGB(255, 243, 233, 237)),
+                              color: Color.fromARGB(255, 246, 242, 243)),
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             mainAxisAlignment: MainAxisAlignment.spaceAround,
@@ -170,8 +170,9 @@ class _AllBillsState extends State<AllBills> {
                                 children: [
                                   Text(
                                     "${bill.category}",
-                                    style: const TextStyle(
+                                    style: TextStyle(
                                         fontWeight: FontWeight.bold,
+                                        color: Colors.grey[700],
                                         fontSize: 18),
                                   ),
                                   Text("Kes. ${bill.amount}")
