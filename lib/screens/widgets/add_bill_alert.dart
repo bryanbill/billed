@@ -1,3 +1,6 @@
+import 'package:billed/models/bill_model.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
 class AddBillAlert extends StatefulWidget {
@@ -36,6 +39,28 @@ class _AddBillAlertState extends State<AddBillAlert> {
     }
   }
 
+  void _addBill(BuildContext context) {
+    //Add Bill to Firestore
+    if (_amountController.text.isNotEmpty &&
+        _dateController.text.isNotEmpty &&
+        _nameController.text.isNotEmpty &&
+        _categoryController.text.isNotEmpty) {
+      BillModel bill = BillModel(
+          amount: _amountController.text,
+          title: _nameController.text,
+          category: _categoryController.text,
+          user: FirebaseAuth.instance.currentUser!.uid);
+      FirebaseFirestore.instance
+          .collection("bills")
+          .add(bill.toMap())
+          .then((value) => Navigator.of(context).pop());
+    } else {
+      ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+        content: Text("Please fill all the fields"),
+      ));
+    }
+  }
+
   void pickCategory() async {
     showModalBottomSheet(
         context: context,
@@ -63,6 +88,7 @@ class _AddBillAlertState extends State<AddBillAlert> {
                       });
                       Navigator.pop(context);
                     },
+                    
                     child: Row(
                       children: const [
                         Icon(
@@ -180,6 +206,7 @@ class _AddBillAlertState extends State<AddBillAlert> {
             TextField(
               focusNode: _amountFocusNode,
               controller: _amountController,
+              keyboardType: TextInputType.number,
               decoration: const InputDecoration(
                 suffixIcon: Icon(Icons.numbers),
                 labelText: "Bill Amount",
@@ -226,9 +253,7 @@ class _AddBillAlertState extends State<AddBillAlert> {
         ),
         TextButton(
           child: const Text("Add"),
-          onPressed: () {
-            Navigator.of(context).pop();
-          },
+          onPressed: () => _addBill(context),
         ),
       ],
     );

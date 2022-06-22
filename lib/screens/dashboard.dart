@@ -2,16 +2,26 @@ import 'package:billed/screens/all_bills.dart';
 import 'package:billed/screens/friends_list.dart';
 import 'package:billed/screens/widgets/add_bill_alert.dart';
 import 'package:billed/screens/widgets/qr_widget.dart';
+import 'package:billed/screens/widgets/recents.dart';
 import 'package:billed/screens/widgets/scan_qr.dart';
+import 'package:billed/utils/app_router.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
 class Dashboard extends StatelessWidget {
-  const Dashboard({Key? key}) : super(key: key);
+  Dashboard({Key? key}) : super(key: key);
+
+  final User? user = FirebaseAuth.instance.currentUser;
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        leading: GestureDetector(
+            onTap: () => FirebaseAuth.instance.signOut().then((value) =>
+                Navigator.pushNamedAndRemoveUntil(
+                    context, AppRouter.login, (route) => false)),
+            child: Icon(Icons.exit_to_app)),
         centerTitle: true,
         title: const Text('Dashboard'),
         actions: [
@@ -20,7 +30,7 @@ class Dashboard extends StatelessWidget {
             child: GestureDetector(
               onTap: () => showModalBottomSheet(
                 context: context,
-                builder: (context) => qrWidget(context, "data"),
+                builder: (context) => qrWidget(context, user!.uid),
               ),
               child: const CircleAvatar(
                 child: Icon(Icons.person),
@@ -34,8 +44,8 @@ class Dashboard extends StatelessWidget {
         height: MediaQuery.of(context).size.height,
         child: ListView(
           children: [
-            const Text(
-              "Hello, John",
+            Text(
+              "Hello, ${user!.phoneNumber!.substring(7, 10)}",
               style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20),
             ),
             const SizedBox(
@@ -165,24 +175,7 @@ class Dashboard extends StatelessWidget {
             const SizedBox(
               height: 10,
             ),
-            const ListTile(
-              leading: Chip(
-                backgroundColor: Color.fromARGB(255, 166, 235, 168),
-                label: Text("Food"),
-              ),
-              title: Text("Food stuff"),
-              subtitle: Text("Kes. 12,000"),
-              trailing: Text("12th, Nov"),
-            ),
-            const ListTile(
-              leading: Chip(
-                backgroundColor: Color.fromARGB(255, 237, 204, 226),
-                label: Text("Food"),
-              ),
-              title: Text("Food stuff"),
-              subtitle: Text("Kes. 12,000"),
-              trailing: Text("12th, Nov"),
-            )
+            ...recents([])
           ],
         ),
       ),

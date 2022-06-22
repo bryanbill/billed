@@ -48,7 +48,7 @@ class Onboarding extends StatelessWidget {
             await Navigator.pushNamedAndRemoveUntil(
                 context, AppRouter.dashboard, (route) => false);
           } else {
-            await Navigator.pushNamed(context, AppRouter.home);
+            await Navigator.pushNamed(context, AppRouter.login);
           }
         },
 

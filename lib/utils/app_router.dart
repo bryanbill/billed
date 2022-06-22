@@ -11,7 +11,7 @@ class AppRouter {
   static Map<String, WidgetBuilder> get routes {
     return {
       home: (context) => const Onboarding(),
-      dashboard: (context) => const Dashboard(),
+      dashboard: (context) => Dashboard(),
       login: (context) => const Login(),
     };
   }

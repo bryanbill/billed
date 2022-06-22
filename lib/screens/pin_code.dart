@@ -1,5 +1,7 @@
 import 'package:billed/utils/app_router.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 
 class PinCode extends StatefulWidget {
@@ -25,6 +27,16 @@ class _PinCodeState extends State<PinCode> {
 
         UserCredential result =
             await widget.auth.signInWithCredential(credential);
+
+        // Create firestore record
+        FirebaseFirestore.instance
+            .collection("users")
+            .doc(result.user!.uid)
+            .set({
+          "phone": result.user!.phoneNumber,
+          "uid": result.user!.uid,
+          "createdAt": FieldValue.serverTimestamp(),
+        });
 
         if (result.user != null) {
           await Navigator.pushNamedAndRemoveUntil(
