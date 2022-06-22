@@ -31,7 +31,7 @@ class _AllBillsState extends State<AllBills> {
             if (snapshot.hasData) {
               for (var element in snapshot.data!.docs) {
                 var data = element.data() as Map<String, dynamic>;
-                bills.add(BillModel.fromJson(data));
+                bills.add(BillModel.fromJson(data, element.id));
               }
             }
             return Container(
@@ -39,7 +39,31 @@ class _AllBillsState extends State<AllBills> {
               height: MediaQuery.of(context).size.height,
               child: ListView.builder(
                   itemCount: bills.length,
-                  itemBuilder: (context, index) => Container(
+                  itemBuilder: (context, index) {
+                    var bill = bills[index];
+                    String status = bill.isPaid!
+                        ? "Paid"
+                        : DateTime.now()
+                                .difference(bill.date!.toDate())
+                                .isNegative
+                            ? "Overdue"
+                            : "Unpaid";
+
+                    String user = bill.user!.last.toString().substring(2, 8);
+
+                    var date = bill.date!.toDate();
+
+                    return Dismissible(
+                      key: UniqueKey(),
+                      onDismissed: (DismissDirection direction) {
+                        FirebaseFirestore.instance
+                            .collection('bills')
+                            .doc(bill.id!)
+                            .update({'isPaid': true});
+                        setState(() {});
+                      },
+                      background: Icon(Icons.mark_email_read),
+                      child: Container(
                         height: 150,
                         width: MediaQuery.of(context).size.width,
                         padding: const EdgeInsets.all(10),
@@ -53,39 +77,45 @@ class _AllBillsState extends State<AllBills> {
                           children: [
                             Row(
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: const [
+                              children: [
                                 Text(
-                                  "Food and Beverage",
-                                  style: TextStyle(
+                                  "${bill.title}",
+                                  style: const TextStyle(
                                       fontWeight: FontWeight.bold,
                                       fontSize: 18),
                                 ),
                                 Chip(
-                                    backgroundColor:
-                                        Color.fromARGB(255, 239, 132, 132),
-                                    label: Text("Overdue"))
+                                    backgroundColor: bill.isPaid!
+                                        ? Colors.blueAccent
+                                        : status == "Overdue"
+                                            ? Color.fromARGB(255, 239, 132, 132)
+                                            : Colors.greenAccent,
+                                    label: Text(status))
                               ],
                             ),
                             Row(
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: const [
+                              children: [
                                 Text(
-                                  "Food",
-                                  style: TextStyle(
+                                  "${bill.category}",
+                                  style: const TextStyle(
                                       fontWeight: FontWeight.bold,
                                       fontSize: 18),
                                 ),
-                                Text("Kes. 23,000")
+                                Text("Kes. ${bill.amount}")
                               ],
                             ),
                             const Divider(
                               color: Colors.black,
                               thickness: 2.0,
                             ),
-                            const Text("John Doe by 5th July, 2022")
+                            Text(
+                                "$user by ${date.day}/${date.month}/${date.year}")
                           ],
                         ),
-                      )),
+                      ),
+                    );
+                  }),
             );
           }),
     );

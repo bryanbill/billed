@@ -9,7 +9,7 @@ List<Widget> recents(List<QueryDocumentSnapshot> docs) {
   List<BillModel> bills = [];
   for (var element in docs) {
     var data = element.data() as Map<String, dynamic>;
-    bills.add(BillModel.fromJson(data));
+    bills.add(BillModel.fromJson(data, element.id));
   }
 
   for (BillModel bill in bills) {

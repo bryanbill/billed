@@ -7,23 +7,24 @@ class BillModel {
   final String? amount;
   final Timestamp? date;
   final List? user;
+  final bool? isPaid;
 
-  BillModel({
-    this.id,
-    this.title,
-    this.category,
-    this.amount,
-    this.date,
-    this.user,
-  });
+  BillModel(
+      {this.id,
+      this.title,
+      this.category,
+      this.amount,
+      this.date,
+      this.user,
+      this.isPaid});
 
-  factory BillModel.fromJson(Map<String, dynamic> json) {
-    print(json);
+  factory BillModel.fromJson(Map<String, dynamic> json, String id) {
     return BillModel(
-        id: json['id'],
+        id: id,
         title: json['title'],
         category: json['category'],
         amount: json['amount'],
+        isPaid: json['isPaid'] ?? false,
         date: Timestamp.fromMillisecondsSinceEpoch(json['date']),
         user: json['user']);
   }
@@ -35,5 +36,6 @@ class BillModel {
         'amount': amount,
         'date': Timestamp.now().millisecondsSinceEpoch,
         'user': user,
+        "isPaid": false
       };
 }
