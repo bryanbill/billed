@@ -118,7 +118,7 @@ class _DashboardState extends State<Dashboard> {
                                   color: Colors.white),
                             ),
                             Text(
-                              "Kes.${(totalAmount / bills.length).floor()}/bill",
+                              "Kes.${totalAmount > 0.0 ? (totalAmount / bills.length).floor() : 00.00}/bill",
                               style: const TextStyle(
                                   fontSize: 16, color: Colors.white70),
                             )

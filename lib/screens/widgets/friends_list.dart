@@ -16,7 +16,7 @@ List<Widget> friendsList(List<Map<String, dynamic>> friends) {
       title: Text(friend['user'].toString().substring(3, 7)),
       subtitle: Text(
           "Connected on${(friend['createdAt'] as Timestamp).toDate().day}th, ${(friend['createdAt'] as Timestamp).toDate().month}/${(friend['createdAt'] as Timestamp).toDate().year}"),
-      trailing: Icon(Icons.more_vert),
+      trailing: const Icon(Icons.more_vert),
     ));
   }
   return widgets;

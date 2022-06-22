@@ -1,7 +1,6 @@
 import 'package:billed/utils/app_router.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 
 class PinCode extends StatefulWidget {
@@ -43,7 +42,7 @@ class _PinCodeState extends State<PinCode> {
               context, AppRouter.dashboard, (route) => false);
         } else {
           ScaffoldMessenger.of(context)
-              .showSnackBar(SnackBar(content: Text("Verification failed")));
+              .showSnackBar(const SnackBar(content: Text("Verification failed")));
         }
       }
     });

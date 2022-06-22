@@ -18,25 +18,36 @@ class _AllBillsState extends State<AllBills> {
       .snapshots();
   FocusNode searchFocusNode = FocusNode();
   FocusNode textFieldFocusNode = FocusNode();
-  List<DropDownValueModel> options() {
-    List<DropDownValueModel> options = [];
+  List<DropDownValueModel> options = [];
+
+  @override
+  void initState() {
+    super.initState();
+    getFriends();
+  }
+
+  Future<List<DropDownValueModel>> getFriends() async {
     //Get all friends
-    FirebaseFirestore.instance
+    await FirebaseFirestore.instance
         .collection("users")
         .doc(FirebaseAuth.instance.currentUser!.uid)
         .collection("friends")
         .get()
         .then((value) {
       for (var element in value.docs) {
+        print(element.data()['user']);
         var data = element.data();
         options.add(DropDownValueModel(
           value: data["user"],
-          name: data["user"],
+          name: data["user"].toString().substring(3, 7),
         ));
       }
     });
     return options;
   }
+
+  final SingleValueDropDownController _controller =
+      SingleValueDropDownController();
 
   @override
   Widget build(BuildContext context) {
@@ -94,16 +105,32 @@ class _AllBillsState extends State<AllBills> {
                                   title: const Text("Share with"),
                                   content: DropDownTextField(
                                     clearOption: false,
+                                    singleController: _controller,
                                     textFieldFocusNode: textFieldFocusNode,
                                     searchFocusNode: searchFocusNode,
-                                    // searchAutofocus: true,
                                     dropDownItemCount: 8,
                                     searchShowCursor: false,
                                     enableSearch: true,
                                     searchKeyboardType: TextInputType.number,
-                                    dropDownList: [...options()],
+                                    dropDownList: options,
                                     onChanged: (val) {},
                                   ),
+                                  actions: [
+                                    TextButton(
+                                      child: const Text("Share"),
+                                      onPressed: () {
+                                        FirebaseFirestore.instance
+                                            .collection("bills")
+                                            .doc(bill.id)
+                                            .update({
+                                          "user": FieldValue.arrayUnion([
+                                            _controller.dropDownValue!.value
+                                          ])
+                                        });
+                                        Navigator.of(context).pop();
+                                      },
+                                    )
+                                  ],
                                 )),
                         child: Container(
                           height: 150,

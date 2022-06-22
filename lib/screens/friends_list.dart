@@ -24,7 +24,7 @@ class _FriendsListState extends State<FriendsList> {
           title: const Text('Friends'),
         ),
         body: StreamBuilder<QuerySnapshot>(
-            stream: null,
+            stream: _friendsStream,
             builder: (context, snapshot) {
               List<Map<String, dynamic>> friends = [];
               if (snapshot.hasData) {
