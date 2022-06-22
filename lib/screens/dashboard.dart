@@ -1,6 +1,7 @@
 import 'package:billed/screens/all_bills.dart';
 import 'package:billed/screens/friends_list.dart';
 import 'package:billed/screens/widgets/add_bill_alert.dart';
+import 'package:billed/screens/widgets/qr_widget.dart';
 import 'package:flutter/material.dart';
 
 class Dashboard extends StatelessWidget {
@@ -12,11 +13,17 @@ class Dashboard extends StatelessWidget {
       appBar: AppBar(
         centerTitle: true,
         title: const Text('Dashboard'),
-        actions: const [
+        actions: [
           Padding(
-            padding: EdgeInsets.all(8.0),
-            child: CircleAvatar(
-              child: Icon(Icons.person),
+            padding: const EdgeInsets.all(8.0),
+            child: GestureDetector(
+              onTap: () => showModalBottomSheet(
+                context: context,
+                builder: (context) => qrWidget(context, "data"),
+              ),
+              child: const CircleAvatar(
+                child: Icon(Icons.person),
+              ),
             ),
           )
         ],
